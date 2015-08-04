@@ -18,5 +18,6 @@
         "psr-4": {
             "imanilchaudhari\\CurrencyConverter\\": ""
         }
-    }
+    },
+    "minimum-stability": "dev",
 }
