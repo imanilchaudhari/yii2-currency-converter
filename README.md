@@ -1,6 +1,6 @@
 Yii2 Currency Converter
 =======================
-Yii2 Currency Converter
+This extension will help to find out current currency conversion rate. This extension uses Yahoo's currency conversion API.
 
 Why Use It
 -----------
