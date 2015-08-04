@@ -1,0 +1,21 @@
+{
+    "name": "imanilchaudhari/yii2-currency-converter",
+    "description": "Yii2 Currency Converter",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anil Chaudhari",
+            "email": "caanil90@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "imanilchaudhari\\CurrencyConverter\\": ""
+        }
+    }
+}
