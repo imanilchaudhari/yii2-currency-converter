@@ -11,12 +11,10 @@
         }
     ],
 	"minimum-stability": "dev",
-	"prefer-stable" : true,
 
     "require": {
         "php": ">=5.4.0",
-        "yiisoft/yii2": "*",
-		"imanilchaudhari/yii2-currency-converter": "*"
+        "yiisoft/yii2": "*"
     },
     "autoload": {
         "psr-4": {
