@@ -10,6 +10,12 @@
             "email": "caanil90@gmail.com"
         }
     ],
+	"version": "dev-master",
+	"source": {
+                "url": "git://github.com/ImAnilChaudhari/yii2-currency-converter.git",
+                "type": "git",
+                "reference": "master"
+            },
     "require": {
         "php": ">=5.4",
         "yiisoft/yii2": "*"
