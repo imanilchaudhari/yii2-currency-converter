@@ -29,7 +29,7 @@ php composer.phar require --prefer-dist imanilchaudhari/yii2-currency-converter 
 or add
 
 ```
-"imanilchaudhari/yii2-currency-converter": dev-master"
+"imanilchaudhari/yii2-currency-converter": "dev-master"
 ```
 
 to the require section of your `composer.json` file.
