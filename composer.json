@@ -1,6 +1,6 @@
 {
     "name": "imanilchaudhari/yii2-currency-converter",
-    "description": "Yii2 Currency Converter",
+    "description": "This extension will help to find out current currency conversion rate. This extension uses Yahoo's currency conversion API",
     "type": "yii2-extension",
     "keywords": ["yii2","extension"],
     "license": "MIT",
