@@ -10,7 +10,13 @@
             "email": "caanil90@gmail.com"
         }
     ],
-	"minimum-stability": "dev",
+	"minimum-stability": "stable",
+    "repositories":[
+        {
+            "type": "git",
+            "url": "https://github.com/imanilchaudhari/yii2-currency-converter.git"
+        }
+    ],
 
     "require": {
         "php": ">=5.4.0",
