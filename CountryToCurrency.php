@@ -28,7 +28,7 @@ class CountryToCurrency
         'BH' => 'BHD',
         'BD' => 'BDT',
         'BB' => 'BBD',
-        'BY' => 'BYR',
+        'BY' => 'BYN',
         'BE' => 'EUR',
         'BZ' => 'BZD',
         'BJ' => 'XAF',
