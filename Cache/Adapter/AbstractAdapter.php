@@ -1,4 +1,5 @@
 <?php
+
 namespace imanilchaudhari\CurrencyConverter\Cache\Adapter;
 
 use DateInterval;

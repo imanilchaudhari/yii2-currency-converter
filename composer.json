@@ -7,7 +7,7 @@
     "authors": [
         {
             "name": "Anil Chaudhari",
-            "email": "caanil90@gmail.com"
+            "email": "imanilchaudhari@gmail.com"
         }
     ],
 	"minimum-stability": "stable",
@@ -17,7 +17,6 @@
             "url": "https://github.com/imanilchaudhari/yii2-currency-converter.git"
         }
     ],
-
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "*"
