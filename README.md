@@ -4,9 +4,13 @@ This extension will help to find out current currency conversion rate. This exte
 
 Why Use It
 -----------
-*   Reliable Rate, Uses Yahoo API
-*   Conversion without curreny code(from country code)
-*   Caching of rate, to avoid connecting to Yahoo again and again ( Working on caching )
+*   Reliable Rate. Uses Yahoo API, Open Exchange Rates API.
+*   Conversion without curreny code (from country code).
+*   Caching of rate, to avoid connecting to Yahoo again and again.
+
+Important Notice
+----------------
+As of recent changes on Yahoo Terms of Service. As such, the service is being discontinued. I highly recommend you to use [Open Exchange Rates API](http://openexchangerates.org/). As suggested by [chaimleich](https://github.com/chaimleich) on this [pull request](https://github.com/imanilchaudhari/yii2-currency-converter/pull/3). You can find Open Exchnage Rates working example below.
 
 Requirements
 -----------
@@ -23,13 +27,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist imanilchaudhari/yii2-currency-converter "dev-master"
+php composer.phar require --prefer-dist imanilchaudhari/yii2-currency-converter "1.0"
 ```
 
 or add
 
 ```
-"imanilchaudhari/yii2-currency-converter": "dev-master"
+"imanilchaudhari/yii2-currency-converter": "1.0"
 ```
 
 to the require section of your `composer.json` file.
@@ -299,3 +303,35 @@ $currencies = [
     ];
 
 ```
+
+Contributors
+-------
+* [Robot72](https://github.com/Robot72 "Robot72")
+* [chaimleich](https://github.com/chaimleich "chaimleich")
+
+Open Exchange Rates APi Integration
+-----------------------------------
+Here is a code snippets suggested by [chaimleich](https://github.com/chaimleich) on [this pull request](https://github.com/imanilchaudhari/yii2-currency-converter/pull/3). 
+```php
+
+use Yii;
+use imanilchaudhari\CurrencyConverter\Provider\OpenExchangeRatesApi;
+
+class CurrencyConverter extends \imanilchaudhari\CurrencyConverter\CurrencyConverter
+{
+    /**
+     * @inheritdoc
+     */
+    public function getRateProvider()
+    {
+        if (!$this->rateProvider) {
+            $this->setRateProvider(new OpenExchangeRatesApi([
+                'appId' => Yii::$app->params['openExchangeRate']['appId'],
+            ]));
+        }
+
+        return $this->rateProvider;
+    }
+}
+```
+

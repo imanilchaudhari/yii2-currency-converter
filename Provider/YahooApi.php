@@ -1,4 +1,5 @@
 <?php
+
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
 class YahooApi implements ProviderInterface
