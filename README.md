@@ -1,5 +1,10 @@
 Yii2 Currency Converter
 =======================
+[![Build Status](https://travis-ci.org/imanilchaudhari/yii2-currency-converter.svg?branch=master)](https://travis-ci.org/imanilchaudhari/yii2-currency-converter)
+[![Latest Stable Version](https://poser.pugx.org/imanilchaudhari/yii2-currency-converter/version)](https://packagist.org/packages/imanilchaudhari/yii2-currency-converter)
+[![Latest Unstable Version](https://poser.pugx.org/imanilchaudhari/yii2-currency-converter/v/unstable)](//packagist.org/packages/imanilchaudhari/yii2-currency-converter)
+[![Total Downloads](https://poser.pugx.org/imanilchaudhari/yii2-currency-converter/downloads)](https://packagist.org/packages/imanilchaudhari/yii2-currency-converter)
+
 This extension will help to find out current currency conversion rate. This extension uses Yahoo's currency conversion API.
 
 Why Use It
