@@ -2,16 +2,23 @@
 
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
-use yii\base\Component;
+use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
 
-class FixerApi extends Component implements ProviderInterface
+class CurrencylayerApi implements RateProviderInterface
 {
     /**
      * Url where Curl request is made
      *
      * @var string
      */
-    const API_URL = 'http://api.fixer.io/latest?base=[fromCurrency]';
+    const API_URL = 'http://www.apilayer.net/api/live?access_key=[access_key]&source=[fromCurrency]&curriences=[toCurrency]&format=1';
+
+    /**
+     * The Api Layer access_key
+     *
+     * @var string
+     */
+    public $access_key;
 
     /**
      * @inheritDoc
@@ -19,8 +26,9 @@ class FixerApi extends Component implements ProviderInterface
     public function getRate($fromCurrency, $toCurrency)
     {
         $fromCurrency = urlencode($fromCurrency);
-        
-        $url = str_replace(['[fromCurrency]'], [$fromCurrency], static::API_URL);
+        $toCurrency = urlencode($toCurrency);
+
+        $url = str_replace(['[access_key]', '[fromCurrency]', '[toCurrency]'], [$this->access_key, $fromCurrency, $toCurrency], static::API_URL);
 
         $ch = curl_init();
         $timeout = 0;

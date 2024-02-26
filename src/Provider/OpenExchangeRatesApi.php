@@ -2,25 +2,36 @@
 
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
-use yii\base\Component;
+use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
 
-class JsonRatesApi extends Component implements ProviderInterface
+class OpenExchangeRatesApi implements RateProviderInterface
 {
     /**
      * Url where Curl request is made
      *
      * @var string
      */
-    const API_URL = 'http://jsonrates.com/get/?from=[fromCurrency]&to=[toCurrency]';
+    const API_URL = 'https://openexchangerates.org/api/latest.json?app_id=[appId]&base=[fromCurrency]';
 
     /**
-     * @inheritDoc
+     * The Open Exchange Rate APP ID
+     *
+     * @var string
+     */
+    public $appId;
+
+    /**
+     * {@inheritDoc}
      */
     public function getRate($fromCurrency, $toCurrency)
     {
         $fromCurrency = urlencode($fromCurrency);
-        
-        $url = str_replace(['[fromCurrency]', '[toCurrency]'], [$fromCurrency, $toCurrency], static::API_URL);
+
+        $url = str_replace(
+            ['[fromCurrency]', '[appId]'],
+            [$fromCurrency, $this->appId],
+            static::API_URL
+        );
 
         $ch = curl_init();
         $timeout = 0;

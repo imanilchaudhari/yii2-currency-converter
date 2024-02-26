@@ -1,9 +1,9 @@
-Yahoo APi Integration
+Currencylayer APi Integration
 -----------------------------------
 ```php
 
 use Yii;
-use imanilchaudhari\CurrencyConverter\Provider\YahooApi;
+use imanilchaudhari\CurrencyConverter\Provider\CurrencylayerApi;
 
 class CurrencyConverter extends \imanilchaudhari\CurrencyConverter\CurrencyConverter
 {
@@ -13,7 +13,9 @@ class CurrencyConverter extends \imanilchaudhari\CurrencyConverter\CurrencyConve
     public function getRateProvider()
     {
         if (!$this->rateProvider) {
-            $this->setRateProvider(new YahooApi());
+            $this->setRateProvider(new CurrencylayerApi([
+                'access_key' => Yii::$app->params['currencylayer']['access_key'],
+            ]));
         }
 
         return $this->rateProvider;

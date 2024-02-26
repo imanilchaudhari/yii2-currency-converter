@@ -2,23 +2,16 @@
 
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
-use yii\base\Component;
+use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
 
-class OpenExchangeRatesApi extends Component implements ProviderInterface
+class YahooApi implements RateProviderInterface
 {
     /**
      * Url where Curl request is made
      *
      * @var string
      */
-    const API_URL = 'https://openexchangerates.org/api/latest.json?app_id=[appId]&base=[fromCurrency]';
-
-    /**
-     * The Open Exchange Rate APP ID
-     *
-     * @var string
-     */
-    public $appId;
+    const API_URL = 'http://download.finance.yahoo.com/d/quotes.csv?s=[fromCurrency][toCurrency]=X&f=nl1d1t1';
 
     /**
      * {@inheritDoc}
@@ -26,10 +19,11 @@ class OpenExchangeRatesApi extends Component implements ProviderInterface
     public function getRate($fromCurrency, $toCurrency)
     {
         $fromCurrency = urlencode($fromCurrency);
+        $toCurrency = urlencode($toCurrency);
 
         $url = str_replace(
-            ['[fromCurrency]', '[appId]'],
-            [$fromCurrency, $this->appId],
+            ['[fromCurrency]', '[toCurrency]'],
+            [$fromCurrency, $toCurrency],
             static::API_URL
         );
 
@@ -42,8 +36,6 @@ class OpenExchangeRatesApi extends Component implements ProviderInterface
         $rawdata = curl_exec($ch);
         curl_close($ch);
 
-        $parsedData = json_decode($rawdata, true);
-
-        return $parsedData['rates'][strtoupper($toCurrency)];
+        return explode(',', $rawdata)[1];
     }
 }

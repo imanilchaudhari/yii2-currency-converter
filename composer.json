@@ -10,20 +10,49 @@
             "email": "imanilchaudhari@gmail.com"
         }
     ],
-	"minimum-stability": "stable",
+	"minimum-stability": "dev",
+    "prefer-stable": true,
     "repositories":[
         {
             "type": "git",
             "url": "https://github.com/imanilchaudhari/yii2-currency-converter.git"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "yiisoft/yii2": "*"
+        "php": ">=7.4.0",
+        "yiisoft/yii2": "~2.0.0"
+    },
+    "require-dev": {
+        "maglnet/composer-require-checker": "^3.8",
+        "phpunit/phpunit": "^8.5",
+        "rector/rector": "^1.0",
+        "spatie/phpunit-watcher": "^1.23",
+        "vimeo/psalm": "^4.30"
     },
     "autoload": {
         "psr-4": {
-            "imanilchaudhari\\CurrencyConverter\\": ""
+            "imanilchaudhari\\CurrencyConverter\\": "src"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "imanilchaudhari\\CurrencyConverter\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "infection/extension-installer": true,
+            "composer/package-versions-deprecated": true,
+            "yiisoft/yii2-composer": true
+        }
+    },
+    "scripts": {
+        "test": "phpunit --testdox --no-interaction",
+        "test-watch": "phpunit-watcher watch"
     }
 }

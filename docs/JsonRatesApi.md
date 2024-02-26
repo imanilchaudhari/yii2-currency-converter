@@ -1,9 +1,9 @@
-Yahoo APi Integration
+Json Rates APi Integration
 -----------------------------------
 ```php
 
 use Yii;
-use imanilchaudhari\CurrencyConverter\Provider\YahooApi;
+use imanilchaudhari\CurrencyConverter\Provider\JsonRatesApi;
 
 class CurrencyConverter extends \imanilchaudhari\CurrencyConverter\CurrencyConverter
 {
@@ -13,7 +13,7 @@ class CurrencyConverter extends \imanilchaudhari\CurrencyConverter\CurrencyConve
     public function getRateProvider()
     {
         if (!$this->rateProvider) {
-            $this->setRateProvider(new YahooApi());
+            $this->setRateProvider(new JsonRatesApi());
         }
 
         return $this->rateProvider;
