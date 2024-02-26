@@ -2,28 +2,25 @@
 
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
-class YahooApi implements ProviderInterface
+use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
+
+class JsonRatesApi implements RateProviderInterface
 {
     /**
      * Url where Curl request is made
      *
-     * @var strig
+     * @var string
      */
-    const API_URL = 'http://download.finance.yahoo.com/d/quotes.csv?s=[fromCurrency][toCurrency]=X&f=nl1d1t1';
+    const API_URL = 'http://jsonrates.com/get/?from=[fromCurrency]&to=[toCurrency]';
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function getRate($fromCurrency, $toCurrency)
     {
         $fromCurrency = urlencode($fromCurrency);
-        $toCurrency = urlencode($toCurrency);
 
-        $url = str_replace(
-            ['[fromCurrency]', '[toCurrency]'],
-            [$fromCurrency, $toCurrency],
-            static::API_URL
-        );
+        $url = str_replace(['[fromCurrency]', '[toCurrency]'], [$fromCurrency, $toCurrency], static::API_URL);
 
         $ch = curl_init();
         $timeout = 0;
@@ -34,6 +31,8 @@ class YahooApi implements ProviderInterface
         $rawdata = curl_exec($ch);
         curl_close($ch);
 
-        return explode(',', $rawdata)[1];
+        $parsedData = json_decode($rawdata, true);
+
+        return $parsedData['rates'][strtoupper($toCurrency)];
     }
 }

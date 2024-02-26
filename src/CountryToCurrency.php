@@ -2,6 +2,8 @@
 
 namespace imanilchaudhari\CurrencyConverter;
 
+use InvalidArgumentException;
+
 class CountryToCurrency
 {
 
@@ -256,12 +258,12 @@ class CountryToCurrency
      *
      * @param  string $countryCode Country code
      * @return string
-     * @throws Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function getCurrency($countryCode)
     {
         if (!array_key_exists($countryCode, self::$currencies)) {
-            throw new Exception\InvalidArgumentException(sprintf('Unsupported Country Code, %s', $countryCode));
+            throw new InvalidArgumentException(sprintf('Unsupported Country Code, %s', $countryCode));
         }
 
         return self::$currencies[$countryCode];
