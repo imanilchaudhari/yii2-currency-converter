@@ -27,7 +27,7 @@ class CurrencyConverter implements RateConverterInterface
 
         if ($cache) {
             if ($rate = $cache->get($sourceCurrency . '_ ' . $targetCurrency . '_cache')) {
-                return $$rate * $amount;
+                return $rate * $amount;
             } elseif ($rate = $cache->get($targetCurrency . '_ ' . $sourceCurrency . '_cache')) {
                 return (1 / $rate) * $amount;
             }
@@ -59,9 +59,9 @@ class CurrencyConverter implements RateConverterInterface
     /**
      * Sets rate provider
      *
-     * @param  RateProviderInterface $rateProvider
-     * @return self
+     * @param RateProviderInterface $rateProvider
      *
+     * @return self
      */
     public function setRateProvider(RateProviderInterface $rateProvider)
     {
