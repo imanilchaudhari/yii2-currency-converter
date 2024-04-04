@@ -1,25 +1,9 @@
-Open Exchange Rates APi Integration
------------------------------------
-Here is a code snippets suggested by [chaimleich](https://github.com/chaimleich) on [this pull request](https://github.com/imanilchaudhari/yii2-currency-converter/pull/3). 
-```php
+# Yii2 Currency Converter
 
-use Yii;
-use imanilchaudhari\CurrencyConverter\Provider\OpenExchangeRatesApi;
+This package provides the most famous currency rates providers' implementations. The package was originally built on Yahoo API, but there was a discontinuation of it. It is therefore highly recommended that you make use of only active providers, such as the ones listed below.
 
-class CurrencyConverter extends \imanilchaudhari\CurrencyConverter\CurrencyConverter
-{
-    /**
-     * @inheritdoc
-     */
-    public function getRateProvider()
-    {
-        if (!$this->rateProvider) {
-            $this->setRateProvider(new OpenExchangeRatesApi([
-                'appId' => Yii::$app->params['openExchangeRate']['appId'],
-            ]));
-        }
+### Active Provider
+- [Fixer API](FixerApi.md)
+- [Currency Layer API](CurrencylayerApi.md)
+- [Open Exchang eRates API](OpenExchangeRatesApi.md)
 
-        return $this->rateProvider;
-    }
-}
-```
