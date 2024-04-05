@@ -1,25 +1,22 @@
 Open Exchange Rates APi Integration
 -----------------------------------
-Here is a code snippets suggested by [chaimleich](https://github.com/chaimleich) on [this pull request](https://github.com/imanilchaudhari/yii2-currency-converter/pull/3). 
+
+Open Exchange Rates provides currency conversion, current and historical forex exchange rate and currency fluctuation data through REST API in json and xml formats compatible.
+
+Source : [https://openexchangerates.org](https://openexchangerates.org/)
+
 ```php
 
-use Yii;
-use imanilchaudhari\CurrencyConverter\Provider\OpenExchangeRatesApi;
+'components' => [
+    'currencyConverter' => [
+        'class' => 'imanilchaudhari\CurrencyConverter\CurrencyConverter',
+        'provider' => [
+            'class' => 'imanilchaudhari\CurrencyConverter\Provider\OpenExchangeRatesApi',
+            'appId' => 'your-app-id',
+        ],
+    ],
+],
 
-class CurrencyConverter extends \imanilchaudhari\CurrencyConverter\CurrencyConverter
-{
-    /**
-     * @inheritdoc
-     */
-    public function getRateProvider()
-    {
-        if (!$this->rateProvider) {
-            $this->setRateProvider(new OpenExchangeRatesApi([
-                'appId' => Yii::$app->params['openExchangeRate']['appId'],
-            ]));
-        }
-
-        return $this->rateProvider;
-    }
-}
+$converter = Yii::$app->currencyConverter;
+$rate =  $converter->convert('USD', 'NPR');
 ```
