@@ -1,18 +1,43 @@
 <?php
 
+/**
+ * @link https://github.com/imanilchaudhari
+ * @copyright Copyright (c) 2024
+ * @license [MIT License](https://opensource.org/license/mit)
+ */
+
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
+use yii\httpclient\Client;
+use yii\base\InvalidConfigException;
 use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
 
+/**
+ * Open Exchange Rates provides currency conversion, current and historical forex exchange rate
+ * and currency fluctuation data through REST API in json and xml formats compatible.
+ *
+ * To use OpenExchangeRatesApi, configure your app component as below
+ *
+ * ```php
+ *
+ *  'components' => [
+ *      'currencyConverter' => [
+ *          'class' => 'imanilchaudhari\CurrencyConverter\CurrencyConverter',
+ *          'provider' => [
+ *              'class' => 'imanilchaudhari\CurrencyConverter\Provider\OpenExchangeRatesApi',
+ *              'appId' => 'your-app-id',
+ *          ],
+ *      ],
+ * ],
+ * ```
+ *
+ * @see https://openexchangerates.org/
+ *
+ * @author Anil Chaudhari <imanilchaudhari@gmail.com>
+ * @since 1.0
+ */
 class OpenExchangeRatesApi implements RateProviderInterface
 {
-    /**
-     * Url where Curl request is made
-     *
-     * @var string
-     */
-    const API_URL = 'https://openexchangerates.org/api/latest.json?app_id=[appId]&base=[fromCurrency]';
-
     /**
      * The Open Exchange Rate APP ID
      *
@@ -21,29 +46,42 @@ class OpenExchangeRatesApi implements RateProviderInterface
     public $appId;
 
     /**
+     * Yii http client
+     */
+    private $_client;
+
+    /**
+     * Create a new provider instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->_client = new Client([
+            'baseUrl' => 'https://openexchangerates.org',
+            'transport' => 'yii\httpclient\CurlTransport',
+        ]);
+    }
+
+    /**
      * {@inheritDoc}
      */
-    public function getRate($fromCurrency, $toCurrency)
+    public function getRate($source, $target)
     {
-        $fromCurrency = urlencode($fromCurrency);
+        try {
+            $response = $this->_client->get('/api/latest.json', [
+                'app_id' => $this->appId,
+                'base' => $source,
+            ])->send();
 
-        $url = str_replace(
-            ['[fromCurrency]', '[appId]'],
-            [$fromCurrency, $this->appId],
-            static::API_URL
-        );
+            $content = $response->getData();
 
-        $ch = curl_init();
-        $timeout = 0;
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)');
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        $rawdata = curl_exec($ch);
-        curl_close($ch);
-
-        $parsedData = json_decode($rawdata, true);
-
-        return $parsedData['rates'][strtoupper($toCurrency)];
+            if ($response->isOk) {
+                return $content['rates'][$target];
+            }
+            throw new InvalidConfigException($content['message']);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
     }
 }
