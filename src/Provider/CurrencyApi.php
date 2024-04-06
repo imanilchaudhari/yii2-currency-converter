@@ -12,12 +12,12 @@ use yii\httpclient\Client;
 use yii\base\InvalidConfigException;
 use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
 
-
 /**
- * Fixer provides currency conversion, current and historical forex exchange rate
- * and currency fluctuation data through REST API in json and xml formats compatible.
+ * The perfect tool to handle your exchange rate conversions.
+ * Our API helps you with current and historical foreign exchanges rates.
+ * Stop worrying about uptime & outdated data.
  *
- * To use FixerApi, configure your app component as below
+ * To use CurrencyApi, configure your app component as below
  *
  * ```php
  *
@@ -25,26 +25,26 @@ use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
  *      'currencyConverter' => [
  *          'class' => 'imanilchaudhari\CurrencyConverter\CurrencyConverter',
  *          'provider' => [
- *              'class' => 'imanilchaudhari\CurrencyConverter\Provider\FixerApi',
- *              'access_key' => 'your-access-key',
+ *              'class' => 'imanilchaudhari\CurrencyConverter\Provider\CurrencyApi',
+ *              'apiKey' => 'your-api-key',
  *          ],
  *      ],
  * ],
  * ```
  *
- * @see https://fixer.io/
+ * @see https://currencyapi.com/
  *
  * @author Anil Chaudhari <imanilchaudhari@gmail.com>
  * @since 1.0
  */
-class FixerApi implements RateProviderInterface
+class CurrencyApi implements RateProviderInterface
 {
     /**
-     * The Fixer Api access_key
+     * The Currency API KEY
      *
      * @var string
      */
-    public $access_key;
+    public $apiKey;
 
     /**
      * Yii http client
@@ -56,34 +56,36 @@ class FixerApi implements RateProviderInterface
     /**
      * Create a new provider instance.
      *
-     * @param string $access_key
+     * @param string $apiKey
      * @return void
      */
-    public function __construct($access_key)
+    public function __construct($apiKey)
     {
-        $this->access_key = $access_key;
+        $this->apiKey = $apiKey;
         $this->_client = new Client([
-            'baseUrl' => 'https://data.fixer.io',
+            'baseUrl' => 'https://api.currencyapi.com',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getRate($source, $target)
     {
         try {
-            $response = $this->_client->get('/api/latest', [
-                'access_key' => $this->access_key,
-                'base' => $source,
+            $response = $this->_client->get('/v3/latest', [
+                'apikey' => $this->apiKey,
+                'base_currency' => $source,
+                'currencies' => $target
             ])->send();
 
             $content = $response->getData();
-            if ($response->isOk && $content['success']) {
-                return $content['rates'][$target];
+
+            if ($response->isOk && isset($content['data'][$target])) {
+                return $content['data'][$target]['value'];
             }
-            throw new InvalidConfigException($content['error']['info']);
+            throw new InvalidConfigException($content['message']);
         } catch (\Exception $ex) {
             throw $ex;
         }

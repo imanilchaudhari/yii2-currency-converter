@@ -1,18 +1,43 @@
 <?php
 
+/**
+ * @link https://github.com/imanilchaudhari
+ * @copyright Copyright (c) 2024
+ * @license [MIT License](https://opensource.org/license/mit)
+ */
+
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
+use yii\httpclient\Client;
+use yii\base\InvalidConfigException;
 use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
 
+/**
+ * Currency Layer provides currency conversion, current and historical forex exchange rate
+ * and currency fluctuation data through REST API in json and xml formats compatible.
+ *
+ * To use CurrencylayerApi, configure your app component as below
+ *
+ * ```php
+ *
+ *  'components' => [
+ *      'currencyConverter' => [
+ *          'class' => 'imanilchaudhari\CurrencyConverter\CurrencyConverter',
+ *          'provider' => [
+ *              'class' => 'imanilchaudhari\CurrencyConverter\Provider\CurrencylayerApi',
+ *              'access_key' => 'your-access-key',
+ *          ],
+ *      ],
+ * ],
+ * ```
+ *
+ * @see https://currencylayer.com/
+ *
+ * @author Anil Chaudhari <imanilchaudhari@gmail.com>
+ * @since 1.0
+ */
 class CurrencylayerApi implements RateProviderInterface
 {
-    /**
-     * Url where Curl request is made
-     *
-     * @var string
-     */
-    const API_URL = 'http://www.apilayer.net/api/live?access_key=[access_key]&source=[fromCurrency]&curriences=[toCurrency]&format=1';
-
     /**
      * The Api Layer access_key
      *
@@ -21,26 +46,47 @@ class CurrencylayerApi implements RateProviderInterface
     public $access_key;
 
     /**
+     * Yii http client
+     *
+     * @var Client
+     */
+    private $_client;
+
+    /**
+     * Create a new provider instance.
+     *
+     * @param string $access_key
+     * @return void
+     */
+    public function __construct($access_key)
+    {
+        $this->access_key = $access_key;
+        $this->_client = new Client([
+            'baseUrl' => 'http://www.apilayer.net',
+            'transport' => 'yii\httpclient\CurlTransport',
+        ]);
+    }
+
+    /**
      * @inheritDoc
      */
-    public function getRate($fromCurrency, $toCurrency)
+    public function getRate($source, $target)
     {
-        $fromCurrency = urlencode($fromCurrency);
-        $toCurrency = urlencode($toCurrency);
+        try {
+            $response = $this->_client->get('/api/live', [
+                'access_key' => $this->access_key,
+                'source' => $source,
+                'curriences' => $target,
+                'format' => 1
+            ])->send();
 
-        $url = str_replace(['[access_key]', '[fromCurrency]', '[toCurrency]'], [$this->access_key, $fromCurrency, $toCurrency], static::API_URL);
-
-        $ch = curl_init();
-        $timeout = 0;
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)');
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        $rawdata = curl_exec($ch);
-        curl_close($ch);
-
-        $parsedData = json_decode($rawdata, true);
-
-        return $parsedData['rates'][strtoupper($toCurrency)];
+            $content = $response->getData();
+            if ($response->isOk && $content['success']) {
+                return $content['rates'][$target];
+            }
+            throw new InvalidConfigException($content['error']['info']);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
     }
 }

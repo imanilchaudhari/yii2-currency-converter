@@ -1,24 +1,22 @@
 Currencylayer APi Integration
 -----------------------------------
+
+Currency Layer provides currency conversion, current and historical forex exchange rate and currency fluctuation data through REST API in json and xml formats compatible.
+
+Source : [https://currencylayer.com](https://currencylayer.com/)
+
 ```php
 
-use Yii;
-use imanilchaudhari\CurrencyConverter\Provider\CurrencylayerApi;
+'components' => [
+    'currencyConverter' => [
+        'class' => 'imanilchaudhari\CurrencyConverter\CurrencyConverter',
+        'provider' => [
+            'class' => 'imanilchaudhari\CurrencyConverter\Provider\CurrencylayerApi',
+            'access_key' => 'your-access-key',
+        ],
+    ],
+],
 
-class CurrencyConverter extends \imanilchaudhari\CurrencyConverter\CurrencyConverter
-{
-    /**
-     * @inheritdoc
-     */
-    public function getRateProvider()
-    {
-        if (!$this->rateProvider) {
-            $this->setRateProvider(new CurrencylayerApi([
-                'access_key' => Yii::$app->params['currencylayer']['access_key'],
-            ]));
-        }
-
-        return $this->rateProvider;
-    }
-}
+$converter = Yii::$app->currencyConverter;
+$rate =  $converter->convert('USD', 'NPR');
 ```

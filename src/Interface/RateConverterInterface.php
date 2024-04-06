@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://github.com/imanilchaudhari
+ * @copyright Copyright (c) 2024
+ * @license [MIT License](https://opensource.org/license/mit)
+ */
+
 namespace imanilchaudhari\CurrencyConverter\Interface;
 
 interface RateConverterInterface
@@ -9,7 +15,7 @@ interface RateConverterInterface
      *
      * @param array|string   $source
      * @param array|string   $target
-     * @param float optional $amount
+     * @param int|float $amount
      *
      * @return float
      */

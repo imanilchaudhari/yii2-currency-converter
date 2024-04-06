@@ -12,12 +12,10 @@ use yii\httpclient\Client;
 use yii\base\InvalidConfigException;
 use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
 
-
 /**
- * Fixer provides currency conversion, current and historical forex exchange rate
- * and currency fluctuation data through REST API in json and xml formats compatible.
+ * API Forex provide a worldwide API currencies converter.
  *
- * To use FixerApi, configure your app component as below
+ * To use ApiForexApi, configure your app component as below
  *
  * ```php
  *
@@ -25,26 +23,26 @@ use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
  *      'currencyConverter' => [
  *          'class' => 'imanilchaudhari\CurrencyConverter\CurrencyConverter',
  *          'provider' => [
- *              'class' => 'imanilchaudhari\CurrencyConverter\Provider\FixerApi',
- *              'access_key' => 'your-access-key',
+ *              'class' => 'imanilchaudhari\CurrencyConverter\Provider\ApiForexApi',
+ *              'apiKey' => 'your-api-key',
  *          ],
  *      ],
  * ],
  * ```
  *
- * @see https://fixer.io/
+ * @see https://api.forex
  *
  * @author Anil Chaudhari <imanilchaudhari@gmail.com>
  * @since 1.0
  */
-class FixerApi implements RateProviderInterface
+class ApiForexApi implements RateProviderInterface
 {
     /**
-     * The Fixer Api access_key
+     * The Api Forex apiKey
      *
      * @var string
      */
-    public $access_key;
+    public $apiKey;
 
     /**
      * Yii http client
@@ -56,14 +54,14 @@ class FixerApi implements RateProviderInterface
     /**
      * Create a new provider instance.
      *
-     * @param string $access_key
+     * @param string $apiKey
      * @return void
      */
-    public function __construct($access_key)
+    public function __construct($apiKey)
     {
-        $this->access_key = $access_key;
+        $this->apiKey = $apiKey;
         $this->_client = new Client([
-            'baseUrl' => 'https://data.fixer.io',
+            'baseUrl' => 'https://v2.api.forex',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
@@ -74,16 +72,20 @@ class FixerApi implements RateProviderInterface
     public function getRate($source, $target)
     {
         try {
-            $response = $this->_client->get('/api/latest', [
-                'access_key' => $this->access_key,
+            $response = $this->_client->get('/rates/latest.json', [
+                'key' => $this->apiKey,
                 'base' => $source,
             ])->send();
 
             $content = $response->getData();
+
             if ($response->isOk && $content['success']) {
-                return $content['rates'][$target];
+                if (isset($content['rates'][$target])) {
+                    return $content['rates'][$target];
+                }
+                throw new \Error("Api forex does not support $target currency.");
             }
-            throw new InvalidConfigException($content['error']['info']);
+            throw new InvalidConfigException($content['error']['message']);
         } catch (\Exception $ex) {
             throw $ex;
         }

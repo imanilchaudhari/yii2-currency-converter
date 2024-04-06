@@ -1,19 +1,61 @@
 <?php
 
+/**
+ * @link https://github.com/imanilchaudhari
+ * @copyright Copyright (c) 2024
+ * @license [MIT License](https://opensource.org/license/mit)
+ */
+
 namespace imanilchaudhari\CurrencyConverter;
 
 use Yii;
-use InvalidArgumentException;
-use imanilchaudhari\CurrencyConverter\Provider;
+use yii\helpers\Json;
+use yii\base\Component;
+use yii\base\InvalidArgumentException;
 use imanilchaudhari\CurrencyConverter\Interface\RateConverterInterface;
 use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
 
-class CurrencyConverter implements RateConverterInterface
+/**
+ * Once the extension is installed, simply use it in your code by  :
+ * ```php
+ * 'components' => [
+ *     'currencyConverter' => [
+ *         'class' => 'imanilchaudhari\CurrencyConverter\CurrencyConverter',
+ *         'provider' => [
+ *             'class' => 'imanilchaudhari\CurrencyConverter\Provider\ExchangeRatesApi',
+ *         ],
+ *     ],
+ *     ...
+ * ],
+ *
+ * $converter = Yii::$app->currencyConverter;
+ * $rate =  $converter->convert('USD', 'NPR');
+ *
+ * ```
+ *
+ * @author Anil Chaudhari <imanilchaudhari@gmail.com>
+ * @since 1.0
+ */
+class CurrencyConverter extends Component implements RateConverterInterface
 {
+    /**
+     * Cache duration
+     *
+     * @var int $duration
+     */
+    public $duration = 3600;
+
+    /**
+     * @var array object configuration.
+     */
+    public $provider = [
+        'class' => 'imanilchaudhari\CurrencyConverter\Provider\ExchangeRatesApi'
+    ];
+
     /**
      * @var RateProviderInterface
      */
-    protected $rateProvider;
+    private $_provider;
 
     /**
      * {@inheritDoc}
@@ -22,8 +64,8 @@ class CurrencyConverter implements RateConverterInterface
     {
         $cache = Yii::$app->cache;
 
-        $sourceCurrency = $this->parseCurrencyArgument($source);
-        $targetCurrency = $this->parseCurrencyArgument($target);
+        $sourceCurrency = is_array($source) ? $this->parseCurrencyArgument($source) : $source;
+        $targetCurrency = is_array($source) ? $this->parseCurrencyArgument($target) : $target;
 
         if ($cache) {
             if ($rate = $cache->get($sourceCurrency . '_ ' . $targetCurrency . '_cache')) {
@@ -36,7 +78,7 @@ class CurrencyConverter implements RateConverterInterface
         $rate = $this->getRateProvider()->getRate($sourceCurrency, $targetCurrency);
 
         if ($cache) {
-            $cache->set($sourceCurrency . '_ ' . $targetCurrency . '_cache', $rate);
+            $cache->set($sourceCurrency . '_ ' . $targetCurrency . '_cache', $rate, $this->duration);
         }
 
         return $rate * $amount;
@@ -49,50 +91,57 @@ class CurrencyConverter implements RateConverterInterface
      */
     public function getRateProvider()
     {
-        if (!$this->rateProvider) {
-            $this->setRateProvider(new Provider\YahooApi());
+        if ($this->_provider instanceof RateProviderInterface) {
+            return $this->_provider;
         }
-
-        return $this->rateProvider;
+        return $this->setRateProvider($this->provider);
     }
 
     /**
-     * Sets rate provider
+     * Sets rate provider from its array configuration.
      *
-     * @param RateProviderInterface $rateProvider
-     *
-     * @return self
+     * @param array $config rate provider instance configuration.
+     * @return RateProviderInterface rate provider instance.
      */
-    public function setRateProvider(RateProviderInterface $rateProvider)
+    protected function setRateProvider($config)
     {
-        $this->rateProvider = $rateProvider;
-
-        return $this;
+        return $this->_provider = Yii::createObject($config);
     }
 
     /**
      * Parses the Currency Arguments
      *
-     * @param string|array $data
+     * @param array $data
      * @return string
-     * @throws Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function parseCurrencyArgument($data)
     {
-        if (is_string($data)) {
-            $currency = $data;
-        } elseif (is_array($data)) {
-            if (isset($data['country'])) {
-                $currency = CountryToCurrency::getCurrency($data['country']);
-            } elseif (isset($data['currency'])) {
-                $currency = $data['currency'];
-            } else {
-                throw new InvalidArgumentException('Please provide country or currency!');
-            }
+        if (isset($data['country'])) {
+            $currency = $this->getCurrencyCode($data['country']);
+        } elseif (isset($data['currency'])) {
+            $currency = $data['currency'];
         } else {
-            throw new InvalidArgumentException('Invalid currency provided. String or array expected.');
+            throw new InvalidArgumentException('Please provide country or currency!');
         }
 
         return $currency;
+    }
+
+    /**
+     * Gets Currency code by Country code
+     *
+     * @param  string $countryCode Country code
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    protected function getCurrencyCode($countryCode)
+    {
+        $currencies = Json::decode(file_get_contents(__DIR__ . '/resources/codes.json'), true);
+        if (!array_key_exists($countryCode, $currencies)) {
+            throw new InvalidArgumentException(sprintf('Unsupported country code, %s', $countryCode));
+        }
+
+        return $currencies[$countryCode];
     }
 }
