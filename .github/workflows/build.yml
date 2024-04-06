@@ -1,0 +1,28 @@
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - '.gitignore'
+      - '.gitattributes'
+
+  push:
+    branches: ['master']
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - '.gitignore'
+      - '.gitattributes'
+
+name: build
+
+jobs:
+  phpunit:
+    uses: yiisoft/actions/.github/workflows/phpunit.yml@master
+    with:
+      os: >-
+        ['ubuntu-latest', 'windows-latest']
+      php: >-
+        ['7.4', '8.0', '8.1', '8.2', '8.3']
