@@ -15,6 +15,8 @@ This extension will help to find out current currency conversion rate using vari
 
 Documentation is at [docs/README.md](docs/README.md).
 
+Version 1 docs are located at [here](https://github.com/imanilchaudhari/yii2-currency-converter/tree/1.1).
+
 Requirements
 -----------
 *   PHP version 7.4 or later
