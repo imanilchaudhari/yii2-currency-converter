@@ -1,28 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         cacheDirectory=".phpunit.cache"
-         requireCoverageMetadata="false"
-         beStrictAboutCoverageMetadata="true"
-         beStrictAboutOutputDuringTests="true"
-         executionOrder="random"
-         failOnRisky="true"
-         failOnWarning="true"
-         stopOnFailure="false"
-         colors="true"
->
-    <php>
-        <ini name="error_reporting" value="-1"/>
-    </php>
+<phpunit bootstrap="./tests/bootstrap.php"
+		colors="true"
+		verbose="true"
+		convertErrorsToExceptions="true"
+		convertNoticesToExceptions="true"
+		convertWarningsToExceptions="true"
+		stopOnFailure="false">
+		<testsuites>
+			<testsuite name="Test Suite">
+				<directory>./tests</directory>
+			</testsuite>
+		</testsuites>
 
-    <testsuites>
-        <testsuite name="Yii2 Currency Converter Tests">
-            <directory>./tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <source>
+        <source>
         <include>
             <directory suffix=".php">./src</directory>
         </include>
