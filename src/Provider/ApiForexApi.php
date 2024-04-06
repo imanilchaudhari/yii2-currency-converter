@@ -46,16 +46,20 @@ class ApiForexApi implements RateProviderInterface
 
     /**
      * Yii http client
+     *
+     * @var Client
      */
     private $_client;
 
     /**
      * Create a new provider instance.
      *
+     * @param string $apiKey
      * @return void
      */
-    public function __construct()
+    public function __construct($apiKey)
     {
+        $this->apiKey = $apiKey;
         $this->_client = new Client([
             'baseUrl' => 'https://v2.api.forex',
             'transport' => 'yii\httpclient\CurlTransport',
