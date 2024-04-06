@@ -15,7 +15,7 @@ interface RateConverterInterface
      *
      * @param array|string   $source
      * @param array|string   $target
-     * @param float optional $amount
+     * @param int|float $amount
      *
      * @return float
      */

@@ -47,16 +47,20 @@ class OpenExchangeRatesApi implements RateProviderInterface
 
     /**
      * Yii http client
+     *
+     * @var Client
      */
     private $_client;
 
     /**
      * Create a new provider instance.
      *
+     * @param string $appId
      * @return void
      */
-    public function __construct()
+    public function __construct($appId)
     {
+        $this->appId = $appId;
         $this->_client = new Client([
             'baseUrl' => 'https://openexchangerates.org',
             'transport' => 'yii\httpclient\CurlTransport',

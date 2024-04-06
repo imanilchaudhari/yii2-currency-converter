@@ -39,6 +39,8 @@ class ExchangeRatesApi implements RateProviderInterface
 {
     /**
      * Yii http client
+     *
+     * @var Client
      */
     private $_client;
 

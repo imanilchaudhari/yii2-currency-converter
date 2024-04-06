@@ -13,9 +13,11 @@ interface RateProviderInterface
     /**
      * Gets exchange rate from cache
      *
-     * @param  string $sourceCurrency
-     * @param  string $targetCurrency
+     * @param  string $source
+     * @param  string $target
      * @return float
+     *
+     * @throws \Exception
      */
-    public function getRate($sourceCurrency, $targetCurrency);
+    public function getRate($source, $target);
 }

@@ -48,16 +48,20 @@ class FixerApi implements RateProviderInterface
 
     /**
      * Yii http client
+     *
+     * @var Client
      */
     private $_client;
 
     /**
      * Create a new provider instance.
      *
+     * @param string $access_key
      * @return void
      */
-    public function __construct()
+    public function __construct($access_key)
     {
+        $this->access_key = $access_key;
         $this->_client = new Client([
             'baseUrl' => 'https://data.fixer.io',
             'transport' => 'yii\httpclient\CurlTransport',
