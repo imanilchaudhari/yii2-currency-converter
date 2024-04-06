@@ -1,6 +1,10 @@
 # Yii2 Currency Converter Change Log
 
-## 2.0 under development
+## 3.0 Apr 6, 2024
+
+- enh: removed obsolete providers & added new providers
+
+## 2.0 Feb 27, 2024
 
 - Enh: Removed package's cache provider and use Yii's built in cache provider
 
