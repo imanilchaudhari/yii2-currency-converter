@@ -37,7 +37,7 @@ php composer.phar require --prefer-dist imanilchaudhari/yii2-currency-converter 
 or add
 
 ```
-"imanilchaudhari/yii2-currency-converter": "3.0"
+"imanilchaudhari/yii2-currency-converter": "3.1"
 ```
 
 to the require section of your `composer.json` file.
@@ -46,7 +46,7 @@ to the require section of your `composer.json` file.
 Usage
 -----
 
-Once the extension is installed, simply use it in your code by  :
+Once the extension is installed, use it in your code by adding the below code on the config's components :
 ```php
 'components' => [
     'currencyConverter' => [
@@ -57,9 +57,11 @@ Once the extension is installed, simply use it in your code by  :
     ],
     ...
 ],
+```
+****and use as****
 
-$converter = Yii::$app->currencyConverter;
-$rate =  $converter->convert('USD', 'NPR');
+```
+$rate = Yii::$app->currencyConverter->convert('USD', 'NPR');
 
 ```
 
@@ -76,7 +78,7 @@ $converter = new CurrencyConverter([
 ]);
 $rate =  $converter->convert('USD', 'NPR');
 
-print_r($rate);  // it will print current Nepalese currency (NPR) rate according to USD
+print_r($rate);  // it will print the current Nepalese currency (NPR) rate according to USD
 
 ```
 
