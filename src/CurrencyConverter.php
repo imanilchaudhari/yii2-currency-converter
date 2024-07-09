@@ -137,7 +137,7 @@ class CurrencyConverter extends Component implements RateConverterInterface
      */
     protected function getCurrencyCode($countryCode)
     {
-        $currencies = Json::decode(file_get_contents(__DIR__ . '/resources/codes.json'), true);
+        $currencies = Json::decode(file_get_contents(__DIR__ . '/data/codes.json'), true);
         if (!array_key_exists($countryCode, $currencies)) {
             throw new InvalidArgumentException(sprintf('Unsupported country code, %s', $countryCode));
         }
