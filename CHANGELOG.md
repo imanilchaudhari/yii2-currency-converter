@@ -1,5 +1,9 @@
 # Yii2 Currency Converter Change Log
 
+## 3.1 Jul 9, 2024
+
+- enh: restruct & readme file updated
+
 ## 3.0 Apr 6, 2024
 
 - enh: removed obsolete providers & added new providers

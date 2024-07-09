@@ -31,7 +31,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist imanilchaudhari/yii2-currency-converter "3.0"
+php composer.phar require --prefer-dist imanilchaudhari/yii2-currency-converter "3.1"
 ```
 
 or add
@@ -67,12 +67,11 @@ $rate =  $converter->convert('USD', 'NPR');
 
 ```php
 use imanilchaudhari\CurrencyConverter\CurrencyConverter;
-use imanilchaudhari\CurrencyConverter\Provider\OpenExchangeRatesApi;
+use imanilchaudhari\CurrencyConverter\Provider\ExchangeRatesApi;
 
 $converter = new CurrencyConverter([
     'provider' => [
-        'class' => OpenExchangeRatesApi::class,
-        'appId' => Yii::$app->params['openExchangeRate']['appId'],
+        'class' => ExchangeRatesApi::class,
     ],
 ]);
 $rate =  $converter->convert('USD', 'NPR');
@@ -87,7 +86,7 @@ Exchange Rate Providers
 - [CurrencyApi](./src/Provider/CurrencyApi.php) - Get exchange rates from https://currencyapi.com/
 - [CurrencyFreaksApi](./src/Provider/CurrencyFreaksApi.php) - Get exchange rates from https://currencyfreaks.com/
 - [CurrencylayerApi](./src/Provider/CurrencylayerApi.php) - Get exchange rates from https://currencylayer.com/
-- [ExchangeRatesApi](./src/Provider/ExchangeRatesApi.php) - Get exchange rates from https://www.exchangerate-api.com/
+- [ExchangeRatesApi](./src/Provider/ExchangeRatesApi.php) - Get exchange rates from https://www.exchangerate-api.com/ (Free, no registration required)
 - [FixerApi](./src/Provider/FixerApi.php) - Get exchange rates from https://fixer.io/
 - [OpenExchangeRatesApi](./src/Provider/OpenExchangeRatesApi.php) - Get exchange rates from https://openexchangerates.org/
 
