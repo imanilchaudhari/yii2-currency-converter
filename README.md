@@ -88,7 +88,7 @@ Exchange Rate Providers
 - [CurrencyApi](./src/Provider/CurrencyApi.php) - Get exchange rates from https://currencyapi.com/
 - [CurrencyFreaksApi](./src/Provider/CurrencyFreaksApi.php) - Get exchange rates from https://currencyfreaks.com/
 - [CurrencylayerApi](./src/Provider/CurrencylayerApi.php) - Get exchange rates from https://currencylayer.com/
-- [ExchangeRatesApi](./src/Provider/ExchangeRatesApi.php) - Get exchange rates from https://www.exchangerate-api.com/ (Free, no registration required)
+- [ExchangeRatesApi](./src/Provider/ExchangeRatesApi.php) - Get exchange rates from https://www.exchangerate-api.com/ (Free, no billing required)
 - [FixerApi](./src/Provider/FixerApi.php) - Get exchange rates from https://fixer.io/
 - [OpenExchangeRatesApi](./src/Provider/OpenExchangeRatesApi.php) - Get exchange rates from https://openexchangerates.org/
 
