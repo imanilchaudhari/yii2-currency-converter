@@ -1,5 +1,9 @@
 # Yii2 Currency Converter Change Log
 
+## 3.2 Apr 5, 2025
+
+- feat: add UniRate API provider for real-time currency exchange rates
+
 ## 3.1 Jul 9, 2024
 
 - enh: restruct & readme file updated
