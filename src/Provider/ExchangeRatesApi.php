@@ -2,6 +2,7 @@
 
 /**
  * @link https://github.com/imanilchaudhari
+ *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
  */
@@ -33,12 +34,13 @@ use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
  * @see https://www.exchangerate-api.com/
  *
  * @author Anil Chaudhari <imanilchaudhari@gmail.com>
+ *
  * @since 1.0
  */
 class ExchangeRatesApi implements RateProviderInterface
 {
     /**
-     * Yii http client
+     * Yii http client.
      *
      * @var Client
      */
@@ -52,7 +54,7 @@ class ExchangeRatesApi implements RateProviderInterface
     public function __construct()
     {
         $this->_client = new Client([
-            'baseUrl' => 'https://open.er-api.com',
+            'baseUrl'   => 'https://open.er-api.com',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
@@ -68,6 +70,7 @@ class ExchangeRatesApi implements RateProviderInterface
             if ($response->isOk && ($content['result'] == 'success')) {
                 return $content['rates'][$target];
             }
+
             throw new InvalidConfigException($content['message']);
         } catch (\Exception $ex) {
             throw $ex;

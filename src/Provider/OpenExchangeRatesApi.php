@@ -2,6 +2,7 @@
 
 /**
  * @link https://github.com/imanilchaudhari
+ *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
  */
@@ -34,19 +35,20 @@ use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
  * @see https://openexchangerates.org/
  *
  * @author Anil Chaudhari <imanilchaudhari@gmail.com>
+ *
  * @since 1.0
  */
 class OpenExchangeRatesApi implements RateProviderInterface
 {
     /**
-     * The Open Exchange Rate APP ID
+     * The Open Exchange Rate APP ID.
      *
      * @var string
      */
     public $appId;
 
     /**
-     * Yii http client
+     * Yii http client.
      *
      * @var Client
      */
@@ -56,13 +58,14 @@ class OpenExchangeRatesApi implements RateProviderInterface
      * Create a new provider instance.
      *
      * @param string $appId
+     *
      * @return void
      */
     public function __construct($appId)
     {
         $this->appId = $appId;
         $this->_client = new Client([
-            'baseUrl' => 'https://openexchangerates.org',
+            'baseUrl'   => 'https://openexchangerates.org',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
@@ -75,7 +78,7 @@ class OpenExchangeRatesApi implements RateProviderInterface
         try {
             $response = $this->_client->get('/api/latest.json', [
                 'app_id' => $this->appId,
-                'base' => $source,
+                'base'   => $source,
             ])->send();
 
             $content = $response->getData();
@@ -83,6 +86,7 @@ class OpenExchangeRatesApi implements RateProviderInterface
             if ($response->isOk) {
                 return $content['rates'][$target];
             }
+
             throw new InvalidConfigException($content['message']);
         } catch (\Exception $ex) {
             throw $ex;

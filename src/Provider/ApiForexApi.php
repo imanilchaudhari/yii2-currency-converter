@@ -2,6 +2,7 @@
 
 /**
  * @link https://github.com/imanilchaudhari
+ *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
  */
@@ -33,19 +34,20 @@ use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
  * @see https://api.forex
  *
  * @author Anil Chaudhari <imanilchaudhari@gmail.com>
+ *
  * @since 1.0
  */
 class ApiForexApi implements RateProviderInterface
 {
     /**
-     * The Api Forex apiKey
+     * The Api Forex apiKey.
      *
      * @var string
      */
     public $apiKey;
 
     /**
-     * Yii http client
+     * Yii http client.
      *
      * @var Client
      */
@@ -55,13 +57,14 @@ class ApiForexApi implements RateProviderInterface
      * Create a new provider instance.
      *
      * @param string $apiKey
+     *
      * @return void
      */
     public function __construct($apiKey)
     {
         $this->apiKey = $apiKey;
         $this->_client = new Client([
-            'baseUrl' => 'https://v2.api.forex',
+            'baseUrl'   => 'https://v2.api.forex',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
@@ -73,7 +76,7 @@ class ApiForexApi implements RateProviderInterface
     {
         try {
             $response = $this->_client->get('/rates/latest.json', [
-                'key' => $this->apiKey,
+                'key'  => $this->apiKey,
                 'base' => $source,
             ])->send();
 
@@ -83,8 +86,10 @@ class ApiForexApi implements RateProviderInterface
                 if (isset($content['rates'][$target])) {
                     return $content['rates'][$target];
                 }
+
                 throw new \Error("Api forex does not support $target currency.");
             }
+
             throw new InvalidConfigException($content['error']['message']);
         } catch (\Exception $ex) {
             throw $ex;

@@ -2,6 +2,7 @@
 
 /**
  * @link https://github.com/imanilchaudhari
+ *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
  */
@@ -34,19 +35,20 @@ use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
  * @see https://currencyfreaks.com
  *
  * @author Anil Chaudhari <imanilchaudhari@gmail.com>
+ *
  * @since 1.0
  */
 class CurrencyFreaksApi implements RateProviderInterface
 {
     /**
-     * The Currency Freaks API KEY
+     * The Currency Freaks API KEY.
      *
      * @var string
      */
     public $apiKey;
 
     /**
-     * Yii http client
+     * Yii http client.
      *
      * @var Client
      */
@@ -56,13 +58,14 @@ class CurrencyFreaksApi implements RateProviderInterface
      * Create a new provider instance.
      *
      * @param string $apiKey
+     *
      * @return void
      */
     public function __construct($apiKey)
     {
         $this->apiKey = $apiKey;
         $this->_client = new Client([
-            'baseUrl' => 'https://api.currencyfreaks.com',
+            'baseUrl'   => 'https://api.currencyfreaks.com',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
@@ -75,7 +78,7 @@ class CurrencyFreaksApi implements RateProviderInterface
         try {
             $response = $this->_client->get('/v2.0/rates/latest', [
                 'apikey' => $this->apiKey,
-                'base' => $source,
+                'base'   => $source,
             ])->send();
 
             $content = $response->getData();
@@ -83,6 +86,7 @@ class CurrencyFreaksApi implements RateProviderInterface
             if ($response->isOk) {
                 return $content['rates'][$target];
             }
+
             throw new InvalidConfigException($content['message']);
         } catch (\Exception $ex) {
             throw $ex;
