@@ -19,10 +19,51 @@ on:
 name: build
 
 jobs:
-  phpunit:
-    uses: yiisoft/actions/.github/workflows/phpunit.yml@master
-    with:
-      os: >-
-        ['ubuntu-latest', 'windows-latest']
-      php: >-
-        ['7.4', '8.0', '8.1', '8.2', '8.3']
+  tests:
+    name: PHP ${{ matrix.php }}-${{ matrix.os }}-db
+
+    env:
+      extensions: pdo, pdo_sqlite
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+
+        php:
+          - 7.4
+          - 8.0
+          - 8.1
+          - 8.2
+
+    steps:
+      - name: Checkout.
+        uses: actions/checkout@v3
+
+      - name: Install PHP with extensions.
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.extensions }}
+          ini-values: date.timezone='UTC'
+          coverage: pcov
+          tools: composer:v2, pecl
+
+      - name: Update composer.
+        run: composer self-update
+
+      - name: Install dependencies.
+        run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
+
+      - name: Run db tests with phpunit and code coverage.
+        run: vendor/bin/phpunit --testsuite Db --coverage-clover=coverage.xml --colors=always
+
+      - name: Upload coverage to Codecov.
+        if: matrix.os == 'ubuntu-latest' && matrix.php == '8.1'
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml

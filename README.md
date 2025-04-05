@@ -31,13 +31,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist imanilchaudhari/yii2-currency-converter "3.0"
+php composer.phar require --prefer-dist imanilchaudhari/yii2-currency-converter "3.1"
 ```
 
 or add
 
 ```
-"imanilchaudhari/yii2-currency-converter": "3.0"
+"imanilchaudhari/yii2-currency-converter": "3.1"
 ```
 
 to the require section of your `composer.json` file.
@@ -46,7 +46,7 @@ to the require section of your `composer.json` file.
 Usage
 -----
 
-Once the extension is installed, simply use it in your code by  :
+Once the extension is installed, use it in your code by adding the below code on the config's components :
 ```php
 'components' => [
     'currencyConverter' => [
@@ -57,9 +57,11 @@ Once the extension is installed, simply use it in your code by  :
     ],
     ...
 ],
+```
+****and use as****
 
-$converter = Yii::$app->currencyConverter;
-$rate =  $converter->convert('USD', 'NPR');
+```
+$rate = Yii::$app->currencyConverter->convert('USD', 'NPR');
 
 ```
 
@@ -67,17 +69,16 @@ $rate =  $converter->convert('USD', 'NPR');
 
 ```php
 use imanilchaudhari\CurrencyConverter\CurrencyConverter;
-use imanilchaudhari\CurrencyConverter\Provider\OpenExchangeRatesApi;
+use imanilchaudhari\CurrencyConverter\Provider\ExchangeRatesApi;
 
 $converter = new CurrencyConverter([
     'provider' => [
-        'class' => OpenExchangeRatesApi::class,
-        'appId' => Yii::$app->params['openExchangeRate']['appId'],
+        'class' => ExchangeRatesApi::class,
     ],
 ]);
 $rate =  $converter->convert('USD', 'NPR');
 
-print_r($rate);  // it will print current Nepalese currency (NPR) rate according to USD
+print_r($rate);  // it will print the current Nepalese currency (NPR) rate according to USD
 
 ```
 
@@ -87,7 +88,7 @@ Exchange Rate Providers
 - [CurrencyApi](./src/Provider/CurrencyApi.php) - Get exchange rates from https://currencyapi.com/
 - [CurrencyFreaksApi](./src/Provider/CurrencyFreaksApi.php) - Get exchange rates from https://currencyfreaks.com/
 - [CurrencylayerApi](./src/Provider/CurrencylayerApi.php) - Get exchange rates from https://currencylayer.com/
-- [ExchangeRatesApi](./src/Provider/ExchangeRatesApi.php) - Get exchange rates from https://www.exchangerate-api.com/
+- [ExchangeRatesApi](./src/Provider/ExchangeRatesApi.php) - Get exchange rates from https://www.exchangerate-api.com/ (Free, no billing required)
 - [FixerApi](./src/Provider/FixerApi.php) - Get exchange rates from https://fixer.io/
 - [OpenExchangeRatesApi](./src/Provider/OpenExchangeRatesApi.php) - Get exchange rates from https://openexchangerates.org/
 - [UniRateApi](./src/Provider/UniRateApi.php) - Get exchange rates from https://unirateapi.com/   ( Free — no credit card required.)
