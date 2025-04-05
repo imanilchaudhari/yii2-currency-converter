@@ -2,6 +2,7 @@
 
 /**
  * @link https://github.com/imanilchaudhari
+ *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
  */
@@ -34,19 +35,20 @@ use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
  * @see https://currencylayer.com/
  *
  * @author Anil Chaudhari <imanilchaudhari@gmail.com>
+ *
  * @since 1.0
  */
 class CurrencylayerApi implements RateProviderInterface
 {
     /**
-     * The Api Layer access_key
+     * The Api Layer access_key.
      *
      * @var string
      */
     public $access_key;
 
     /**
-     * Yii http client
+     * Yii http client.
      *
      * @var Client
      */
@@ -56,13 +58,14 @@ class CurrencylayerApi implements RateProviderInterface
      * Create a new provider instance.
      *
      * @param string $access_key
+     *
      * @return void
      */
     public function __construct($access_key)
     {
         $this->access_key = $access_key;
         $this->_client = new Client([
-            'baseUrl' => 'http://www.apilayer.net',
+            'baseUrl'   => 'http://www.apilayer.net',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
@@ -75,15 +78,16 @@ class CurrencylayerApi implements RateProviderInterface
         try {
             $response = $this->_client->get('/api/live', [
                 'access_key' => $this->access_key,
-                'source' => $source,
+                'source'     => $source,
                 'curriences' => $target,
-                'format' => 1
+                'format'     => 1,
             ])->send();
 
             $content = $response->getData();
             if ($response->isOk && $content['success']) {
                 return $content['rates'][$target];
             }
+
             throw new InvalidConfigException($content['error']['info']);
         } catch (\Exception $ex) {
             throw $ex;

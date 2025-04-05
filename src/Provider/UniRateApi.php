@@ -2,6 +2,7 @@
 
 /**
  * @link https://github.com/imanilchaudhari
+ *
  * @copyright Copyright (c) 2025
  * @license [MIT License](https://opensource.org/license/mit)
  */
@@ -33,19 +34,20 @@ use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
  * @see https://unirateapi.com/
  *
  * @author Anil Chaudhari <imanilchaudhari@gmail.com>
+ *
  * @since 3.2
  */
 class UniRateApi implements RateProviderInterface
 {
     /**
-     * UniRate Currency API KEY
+     * UniRate Currency API KEY.
      *
      * @var string
      */
     public $apiKey;
 
     /**
-     * Yii http client
+     * Yii http client.
      *
      * @var Client
      */
@@ -55,13 +57,14 @@ class UniRateApi implements RateProviderInterface
      * Create a new provider instance.
      *
      * @param string $apiKey
+     *
      * @return void
      */
     public function __construct($apiKey)
     {
         $this->apiKey = $apiKey;
         $this->_client = new Client([
-            'baseUrl' => 'https://api.unirateapi.com',
+            'baseUrl'   => 'https://api.unirateapi.com',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
@@ -74,8 +77,8 @@ class UniRateApi implements RateProviderInterface
         try {
             $response = $this->_client->get('/api/convert', [
                 'api_key' => $this->apiKey,
-                'from' => $source,
-                'to' => $target
+                'from'    => $source,
+                'to'      => $target,
             ])->send();
 
             $content = $response->getData();
@@ -83,6 +86,7 @@ class UniRateApi implements RateProviderInterface
             if ($response->isOk) {
                 return $content['result'];
             }
+
             throw new InvalidConfigException($content['error']);
         } catch (\Exception $ex) {
             throw $ex;

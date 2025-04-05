@@ -2,6 +2,7 @@
 
 /**
  * @link https://github.com/imanilchaudhari
+ *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
  */
@@ -11,7 +12,6 @@ namespace imanilchaudhari\CurrencyConverter\Provider;
 use yii\httpclient\Client;
 use yii\base\InvalidConfigException;
 use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
-
 
 /**
  * Fixer provides currency conversion, current and historical forex exchange rate
@@ -35,19 +35,20 @@ use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
  * @see https://fixer.io/
  *
  * @author Anil Chaudhari <imanilchaudhari@gmail.com>
+ *
  * @since 1.0
  */
 class FixerApi implements RateProviderInterface
 {
     /**
-     * The Fixer Api access_key
+     * The Fixer Api access_key.
      *
      * @var string
      */
     public $access_key;
 
     /**
-     * Yii http client
+     * Yii http client.
      *
      * @var Client
      */
@@ -57,13 +58,14 @@ class FixerApi implements RateProviderInterface
      * Create a new provider instance.
      *
      * @param string $access_key
+     *
      * @return void
      */
     public function __construct($access_key)
     {
         $this->access_key = $access_key;
         $this->_client = new Client([
-            'baseUrl' => 'https://data.fixer.io',
+            'baseUrl'   => 'https://data.fixer.io',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
@@ -76,13 +78,14 @@ class FixerApi implements RateProviderInterface
         try {
             $response = $this->_client->get('/api/latest', [
                 'access_key' => $this->access_key,
-                'base' => $source,
+                'base'       => $source,
             ])->send();
 
             $content = $response->getData();
             if ($response->isOk && $content['success']) {
                 return $content['rates'][$target];
             }
+
             throw new InvalidConfigException($content['error']['info']);
         } catch (\Exception $ex) {
             throw $ex;

@@ -2,6 +2,7 @@
 
 /**
  * @link https://github.com/imanilchaudhari
+ *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
  */
@@ -35,19 +36,20 @@ use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
  * @see https://currencyapi.com/
  *
  * @author Anil Chaudhari <imanilchaudhari@gmail.com>
+ *
  * @since 1.0
  */
 class CurrencyApi implements RateProviderInterface
 {
     /**
-     * The Currency API KEY
+     * The Currency API KEY.
      *
      * @var string
      */
     public $apiKey;
 
     /**
-     * Yii http client
+     * Yii http client.
      *
      * @var Client
      */
@@ -57,13 +59,14 @@ class CurrencyApi implements RateProviderInterface
      * Create a new provider instance.
      *
      * @param string $apiKey
+     *
      * @return void
      */
     public function __construct($apiKey)
     {
         $this->apiKey = $apiKey;
         $this->_client = new Client([
-            'baseUrl' => 'https://api.currencyapi.com',
+            'baseUrl'   => 'https://api.currencyapi.com',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
@@ -75,9 +78,9 @@ class CurrencyApi implements RateProviderInterface
     {
         try {
             $response = $this->_client->get('/v3/latest', [
-                'apikey' => $this->apiKey,
+                'apikey'        => $this->apiKey,
                 'base_currency' => $source,
-                'currencies' => $target
+                'currencies'    => $target,
             ])->send();
 
             $content = $response->getData();
@@ -85,6 +88,7 @@ class CurrencyApi implements RateProviderInterface
             if ($response->isOk && isset($content['data'][$target])) {
                 return $content['data'][$target]['value'];
             }
+
             throw new InvalidConfigException($content['message']);
         } catch (\Exception $ex) {
             throw $ex;

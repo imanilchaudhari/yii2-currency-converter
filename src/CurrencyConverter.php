@@ -2,6 +2,7 @@
 
 /**
  * @link https://github.com/imanilchaudhari
+ *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
  */
@@ -34,14 +35,15 @@ use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
  * ```
  *
  * @author Anil Chaudhari <imanilchaudhari@gmail.com>
+ *
  * @since 1.0
  */
 class CurrencyConverter extends Component implements RateConverterInterface
 {
     /**
-     * Cache duration
+     * Cache duration.
      *
-     * @var int $duration
+     * @var int
      */
     public $duration = 3600;
 
@@ -49,7 +51,7 @@ class CurrencyConverter extends Component implements RateConverterInterface
      * @var array object configuration.
      */
     public $provider = [
-        'class' => 'imanilchaudhari\CurrencyConverter\Provider\ExchangeRatesApi'
+        'class' => 'imanilchaudhari\CurrencyConverter\Provider\ExchangeRatesApi',
     ];
 
     /**
@@ -68,9 +70,9 @@ class CurrencyConverter extends Component implements RateConverterInterface
         $targetCurrency = is_array($source) ? $this->parseCurrencyArgument($target) : $target;
 
         if ($cache) {
-            if ($rate = $cache->get($sourceCurrency . '_ ' . $targetCurrency . '_cache')) {
+            if ($rate = $cache->get($sourceCurrency.'_ '.$targetCurrency.'_cache')) {
                 return $rate * $amount;
-            } elseif ($rate = $cache->get($targetCurrency . '_ ' . $sourceCurrency . '_cache')) {
+            } elseif ($rate = $cache->get($targetCurrency.'_ '.$sourceCurrency.'_cache')) {
                 return (1 / $rate) * $amount;
             }
         }
@@ -78,14 +80,14 @@ class CurrencyConverter extends Component implements RateConverterInterface
         $rate = $this->getRateProvider()->getRate($sourceCurrency, $targetCurrency);
 
         if ($cache) {
-            $cache->set($sourceCurrency . '_ ' . $targetCurrency . '_cache', $rate, $this->duration);
+            $cache->set($sourceCurrency.'_ '.$targetCurrency.'_cache', $rate, $this->duration);
         }
 
         return $rate * $amount;
     }
 
     /**
-     * Gets Rate Provider
+     * Gets Rate Provider.
      *
      * @return RateProviderInterface
      */
@@ -94,6 +96,7 @@ class CurrencyConverter extends Component implements RateConverterInterface
         if ($this->_provider instanceof RateProviderInterface) {
             return $this->_provider;
         }
+
         return $this->setRateProvider($this->provider);
     }
 
@@ -101,6 +104,7 @@ class CurrencyConverter extends Component implements RateConverterInterface
      * Sets rate provider from its array configuration.
      *
      * @param array $config rate provider instance configuration.
+     *
      * @return RateProviderInterface rate provider instance.
      */
     protected function setRateProvider($config)
@@ -109,11 +113,13 @@ class CurrencyConverter extends Component implements RateConverterInterface
     }
 
     /**
-     * Parses the Currency Arguments
+     * Parses the Currency Arguments.
      *
      * @param array $data
-     * @return string
+     *
      * @throws InvalidArgumentException
+     *
+     * @return string
      */
     protected function parseCurrencyArgument($data)
     {
@@ -129,15 +135,17 @@ class CurrencyConverter extends Component implements RateConverterInterface
     }
 
     /**
-     * Gets Currency code by Country code
+     * Gets Currency code by Country code.
      *
-     * @param  string $countryCode Country code
-     * @return string
+     * @param string $countryCode Country code
+     *
      * @throws InvalidArgumentException
+     *
+     * @return string
      */
     protected function getCurrencyCode($countryCode)
     {
-        $currencies = Json::decode(file_get_contents(__DIR__ . '/data/codes.json'), true);
+        $currencies = Json::decode(file_get_contents(__DIR__.'/data/codes.json'), true);
         if (!array_key_exists($countryCode, $currencies)) {
             throw new InvalidArgumentException(sprintf('Unsupported country code, %s', $countryCode));
         }
