@@ -10,6 +10,8 @@
 [![Total Downloads](https://poser.pugx.org/imanilchaudhari/yii2-currency-converter/downloads)](https://packagist.org/packages/imanilchaudhari/yii2-currency-converter)
 [![Build Status](https://travis-ci.org/imanilchaudhari/yii2-currency-converter.svg?branch=master)](https://travis-ci.org/imanilchaudhari/yii2-currency-converter)
 [![Code Coverage](https://codecov.io/gh/imanilchaudhari/yii2-currency-converter/branch/master/graph/badge.svg)](https://codecov.io/gh/imanilchaudhari/yii2-currency-converter)
+[![StyleCI](https://github.styleci.io/repos/40206283/shield?branch=master)](https://github.styleci.io/repos/40206283?branch=master)
+[![License](https://img.shields.io/github/license/imanilchaudhari/yii2-currency-converter)](//packagist.org/packages/imanilchaudhari/yii2-currency-converter)
 
 This extension will help to find out current currency conversion rate using various providers.
 
