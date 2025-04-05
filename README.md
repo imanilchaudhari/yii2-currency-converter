@@ -90,6 +90,7 @@ Exchange Rate Providers
 - [ExchangeRatesApi](./src/Provider/ExchangeRatesApi.php) - Get exchange rates from https://www.exchangerate-api.com/
 - [FixerApi](./src/Provider/FixerApi.php) - Get exchange rates from https://fixer.io/
 - [OpenExchangeRatesApi](./src/Provider/OpenExchangeRatesApi.php) - Get exchange rates from https://openexchangerates.org/
+- [UniRateApi](./src/Provider/UniRateApi.php) - Get exchange rates from https://unirateapi.com/   ( Free — no credit card required.)
 
 
 ## Testing
