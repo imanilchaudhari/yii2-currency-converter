@@ -11,11 +11,21 @@ name: rector
 
 jobs:
   rector:
-    uses: yiisoft/actions/.github/workflows/rector.yml@master
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
-    with:
-      os: >-
-        ['ubuntu-latest']
-      php: >-
-        ['7.4']
+    name: Rector
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress --ansi
+
+      - name: Run Rector
+        run: vendor/bin/rector process --dry-run --ansi

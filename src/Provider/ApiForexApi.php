@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @link https://github.com/imanilchaudhari
+ * @see https://github.com/imanilchaudhari
  *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
@@ -9,9 +9,9 @@
 
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
-use yii\httpclient\Client;
+use imanilchaudhari\CurrencyConverter\Contract\RateProviderInterface;
 use yii\base\InvalidConfigException;
-use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
+use yii\httpclient\Client;
 
 /**
  * API Forex provide a worldwide API currencies converter.
@@ -60,18 +60,15 @@ class ApiForexApi implements RateProviderInterface
      *
      * @return void
      */
-    public function __construct($apiKey)
+    public function __construct($apiKey = null)
     {
-        $this->apiKey = $apiKey;
+        $this->apiKey  = $apiKey;
         $this->_client = new Client([
             'baseUrl'   => 'https://v2.api.forex',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getRate($source, $target)
     {
         try {
@@ -87,7 +84,7 @@ class ApiForexApi implements RateProviderInterface
                     return $content['rates'][$target];
                 }
 
-                throw new \Error("Api forex does not support $target currency.");
+                throw new InvalidConfigException("Api forex does not support $target currency.");
             }
 
             throw new InvalidConfigException($content['error']['message']);

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @link https://github.com/imanilchaudhari
+ * @see https://github.com/imanilchaudhari
  *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
@@ -9,9 +9,9 @@
 
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
-use yii\httpclient\Client;
+use imanilchaudhari\CurrencyConverter\Contract\RateProviderInterface;
 use yii\base\InvalidConfigException;
-use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
+use yii\httpclient\Client;
 
 /**
  * CurrencyFreaks provides currency conversion, current and historical forex exchange rate
@@ -61,18 +61,15 @@ class CurrencyFreaksApi implements RateProviderInterface
      *
      * @return void
      */
-    public function __construct($apiKey)
+    public function __construct($apiKey = null)
     {
-        $this->apiKey = $apiKey;
+        $this->apiKey  = $apiKey;
         $this->_client = new Client([
             'baseUrl'   => 'https://api.currencyfreaks.com',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRate($source, $target)
     {
         try {

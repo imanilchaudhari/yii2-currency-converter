@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @link https://github.com/imanilchaudhari
+ * @see https://github.com/imanilchaudhari
  *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
  */
 
-namespace imanilchaudhari\CurrencyConverter\Interface;
+namespace imanilchaudhari\CurrencyConverter\Contract;
 
 interface RateConverterInterface
 {
