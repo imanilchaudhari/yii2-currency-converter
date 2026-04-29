@@ -7,7 +7,7 @@
  * @license [MIT License](https://opensource.org/license/mit)
  */
 
-namespace imanilchaudhari\CurrencyConverter\Interface;
+namespace imanilchaudhari\CurrencyConverter\Contract;
 
 interface RateConverterInterface
 {

@@ -11,7 +11,7 @@ namespace imanilchaudhari\CurrencyConverter\Provider;
 
 use yii\httpclient\Client;
 use yii\base\InvalidConfigException;
-use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
+use imanilchaudhari\CurrencyConverter\Contract\RateProviderInterface;
 
 /**
  * The perfect tool to handle your exchange rate conversions.

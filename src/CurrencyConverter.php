@@ -13,8 +13,8 @@ use Yii;
 use yii\helpers\Json;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
-use imanilchaudhari\CurrencyConverter\Interface\RateConverterInterface;
-use imanilchaudhari\CurrencyConverter\Interface\RateProviderInterface;
+use imanilchaudhari\CurrencyConverter\Contract\RateConverterInterface;
+use imanilchaudhari\CurrencyConverter\Contract\RateProviderInterface;
 
 /**
  * Once the extension is installed, simply use it in your code by  :

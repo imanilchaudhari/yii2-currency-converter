@@ -7,12 +7,12 @@
  * @license [MIT License](https://opensource.org/license/mit)
  */
 
-namespace imanilchaudhari\CurrencyConverter\Interface;
+namespace imanilchaudhari\CurrencyConverter\Contract;
 
 interface RateProviderInterface
 {
     /**
-     * Gets exchange rate from cache.
+     * Gets exchange rate from provider.
      *
      * @param string $source
      * @param string $target
