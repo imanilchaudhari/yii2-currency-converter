@@ -85,8 +85,11 @@ class CurrencyApi implements RateProviderInterface
 
             $content = $response->getData();
 
-            if ($response->isOk && isset($content['data'][$target])) {
-                return $content['data'][$target]['value'];
+            if ($response->isOk) {
+                if (isset($content['data'][$target])) {
+                    return $content['data'][$target]['value'];
+                }
+                throw new InvalidConfigException("Currency '$target' not found in response.");
             }
 
             throw new InvalidConfigException($content['message']);
