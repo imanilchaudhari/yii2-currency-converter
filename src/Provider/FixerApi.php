@@ -61,7 +61,7 @@ class FixerApi implements RateProviderInterface
      *
      * @return void
      */
-    public function __construct($access_key)
+    public function __construct($access_key = null)
     {
         $this->access_key = $access_key;
         $this->_client = new Client([

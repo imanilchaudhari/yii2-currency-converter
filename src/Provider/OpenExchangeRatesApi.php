@@ -61,7 +61,7 @@ class OpenExchangeRatesApi implements RateProviderInterface
      *
      * @return void
      */
-    public function __construct($appId)
+    public function __construct($appId = null)
     {
         $this->appId = $appId;
         $this->_client = new Client([

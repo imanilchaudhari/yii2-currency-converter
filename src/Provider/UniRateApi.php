@@ -60,7 +60,7 @@ class UniRateApi implements RateProviderInterface
      *
      * @return void
      */
-    public function __construct($apiKey)
+    public function __construct($apiKey = null)
     {
         $this->apiKey = $apiKey;
         $this->_client = new Client([

@@ -60,7 +60,7 @@ class ApiForexApi implements RateProviderInterface
      *
      * @return void
      */
-    public function __construct($apiKey)
+    public function __construct($apiKey = null)
     {
         $this->apiKey = $apiKey;
         $this->_client = new Client([
@@ -87,7 +87,7 @@ class ApiForexApi implements RateProviderInterface
                     return $content['rates'][$target];
                 }
 
-                throw new \Error("Api forex does not support $target currency.");
+                throw new InvalidConfigException("Api forex does not support $target currency.");
             }
 
             throw new InvalidConfigException($content['error']['message']);

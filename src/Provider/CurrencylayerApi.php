@@ -61,7 +61,7 @@ class CurrencylayerApi implements RateProviderInterface
      *
      * @return void
      */
-    public function __construct($access_key)
+    public function __construct($access_key = null)
     {
         $this->access_key = $access_key;
         $this->_client = new Client([
@@ -79,13 +79,13 @@ class CurrencylayerApi implements RateProviderInterface
             $response = $this->_client->get('/api/live', [
                 'access_key' => $this->access_key,
                 'source'     => $source,
-                'curriences' => $target,
+                'currencies' => $target,
                 'format'     => 1,
             ])->send();
 
             $content = $response->getData();
             if ($response->isOk && $content['success']) {
-                return $content['rates'][$target];
+                return $content['quotes'][$source.$target];
             }
 
             throw new InvalidConfigException($content['error']['info']);

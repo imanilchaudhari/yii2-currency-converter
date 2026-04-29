@@ -67,12 +67,12 @@ class CurrencyConverter extends Component implements RateConverterInterface
         $cache = Yii::$app->cache;
 
         $sourceCurrency = is_array($source) ? $this->parseCurrencyArgument($source) : $source;
-        $targetCurrency = is_array($source) ? $this->parseCurrencyArgument($target) : $target;
+        $targetCurrency = is_array($target) ? $this->parseCurrencyArgument($target) : $target;
 
         if ($cache) {
-            if ($rate = $cache->get($sourceCurrency.'_ '.$targetCurrency.'_cache')) {
+            if ($rate = $cache->get($sourceCurrency.'_'.$targetCurrency.'_cache')) {
                 return $rate * $amount;
-            } elseif ($rate = $cache->get($targetCurrency.'_ '.$sourceCurrency.'_cache')) {
+            } elseif ($rate = $cache->get($targetCurrency.'_'.$sourceCurrency.'_cache')) {
                 return (1 / $rate) * $amount;
             }
         }
@@ -80,7 +80,7 @@ class CurrencyConverter extends Component implements RateConverterInterface
         $rate = $this->getRateProvider()->getRate($sourceCurrency, $targetCurrency);
 
         if ($cache) {
-            $cache->set($sourceCurrency.'_ '.$targetCurrency.'_cache', $rate, $this->duration);
+            $cache->set($sourceCurrency.'_'.$targetCurrency.'_cache', $rate, $this->duration);
         }
 
         return $rate * $amount;
@@ -145,7 +145,7 @@ class CurrencyConverter extends Component implements RateConverterInterface
      */
     protected function getCurrencyCode($countryCode)
     {
-        $currencies = Json::decode(file_get_contents(__DIR__.'/data/codes.json'), true);
+        $currencies = Json::decode(file_get_contents(__DIR__.'/../data/codes.json'), true);
         if (!array_key_exists($countryCode, $currencies)) {
             throw new InvalidArgumentException(sprintf('Unsupported country code, %s', $countryCode));
         }

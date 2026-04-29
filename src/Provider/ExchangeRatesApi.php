@@ -67,7 +67,7 @@ class ExchangeRatesApi implements RateProviderInterface
         try {
             $response = $this->_client->get("/v6/latest/$source")->send();
             $content = $response->getData();
-            if ($response->isOk && ($content['result'] == 'success')) {
+            if ($response->isOk && ($content['result'] === 'success')) {
                 return $content['rates'][$target];
             }
 
