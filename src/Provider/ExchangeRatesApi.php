@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @link https://github.com/imanilchaudhari
+ * @see https://github.com/imanilchaudhari
  *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
@@ -9,9 +9,9 @@
 
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
-use yii\httpclient\Client;
-use yii\base\InvalidConfigException;
 use imanilchaudhari\CurrencyConverter\Contract\RateProviderInterface;
+use yii\base\InvalidConfigException;
+use yii\httpclient\Client;
 
 /**
  * Exchange Rates provides currency conversion, current and historical forex exchange rate
@@ -59,14 +59,11 @@ class ExchangeRatesApi implements RateProviderInterface
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRate($source, $target)
     {
         try {
             $response = $this->_client->get("/v6/latest/$source")->send();
-            $content = $response->getData();
+            $content  = $response->getData();
             if ($response->isOk && ($content['result'] === 'success')) {
                 return $content['rates'][$target];
             }

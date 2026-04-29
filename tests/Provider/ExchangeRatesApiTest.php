@@ -2,8 +2,8 @@
 
 namespace imanilchaudhari\CurrencyConverter\Tests\Provider;
 
-use yii\base\InvalidConfigException;
 use imanilchaudhari\CurrencyConverter\Provider\ExchangeRatesApi;
+use yii\base\InvalidConfigException;
 
 class ExchangeRatesApiTest extends ProviderTestCase
 {
@@ -16,9 +16,9 @@ class ExchangeRatesApiTest extends ProviderTestCase
     {
         $provider = $this->makeProvider();
         $this->injectMockTransport($provider, $this->makeResponse([
-            'result'           => 'success',
-            'base_code'        => 'USD',
-            'rates'            => ['EUR' => 0.85, 'NPR' => 132.50],
+            'result'    => 'success',
+            'base_code' => 'USD',
+            'rates'     => ['EUR' => 0.85, 'NPR' => 132.50],
         ]));
 
         $this->assertSame(0.85, $provider->getRate('USD', 'EUR'));
@@ -28,9 +28,9 @@ class ExchangeRatesApiTest extends ProviderTestCase
     {
         $provider = $this->makeProvider();
         $this->injectMockTransport($provider, $this->makeResponse([
-            'result'      => 'error',
-            'error-type'  => 'unsupported-code',
-            'message'     => 'Unsupported currency code.',
+            'result'     => 'error',
+            'error-type' => 'unsupported-code',
+            'message'    => 'Unsupported currency code.',
         ], 404));
 
         $this->expectException(InvalidConfigException::class);

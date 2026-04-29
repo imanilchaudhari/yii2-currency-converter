@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @link https://github.com/imanilchaudhari
+ * @see https://github.com/imanilchaudhari
  *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
@@ -9,9 +9,9 @@
 
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
-use yii\httpclient\Client;
-use yii\base\InvalidConfigException;
 use imanilchaudhari\CurrencyConverter\Contract\RateProviderInterface;
+use yii\base\InvalidConfigException;
+use yii\httpclient\Client;
 
 /**
  * Currency Layer provides currency conversion, current and historical forex exchange rate
@@ -64,15 +64,12 @@ class CurrencylayerApi implements RateProviderInterface
     public function __construct($access_key = null)
     {
         $this->access_key = $access_key;
-        $this->_client = new Client([
+        $this->_client    = new Client([
             'baseUrl'   => 'http://www.apilayer.net',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getRate($source, $target)
     {
         try {

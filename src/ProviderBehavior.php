@@ -2,8 +2,8 @@
 
 namespace imanilchaudhari\CurrencyConverter;
 
-use yii\db\ActiveRecord;
 use yii\base\Behavior;
+use yii\db\ActiveRecord;
 
 class ProviderBehavior extends Behavior
 {

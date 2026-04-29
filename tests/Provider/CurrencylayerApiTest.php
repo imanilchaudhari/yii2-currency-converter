@@ -2,8 +2,8 @@
 
 namespace imanilchaudhari\CurrencyConverter\Tests\Provider;
 
-use yii\base\InvalidConfigException;
 use imanilchaudhari\CurrencyConverter\Provider\CurrencylayerApi;
+use yii\base\InvalidConfigException;
 
 class CurrencylayerApiTest extends ProviderTestCase
 {

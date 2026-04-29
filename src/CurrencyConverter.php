@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @link https://github.com/imanilchaudhari
+ * @see https://github.com/imanilchaudhari
  *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
@@ -9,12 +9,12 @@
 
 namespace imanilchaudhari\CurrencyConverter;
 
-use Yii;
-use yii\helpers\Json;
-use yii\base\Component;
-use yii\base\InvalidArgumentException;
 use imanilchaudhari\CurrencyConverter\Contract\RateConverterInterface;
 use imanilchaudhari\CurrencyConverter\Contract\RateProviderInterface;
+use Yii;
+use yii\base\Component;
+use yii\base\InvalidArgumentException;
+use yii\helpers\Json;
 
 /**
  * Once the extension is installed, simply use it in your code by  :
@@ -48,7 +48,7 @@ class CurrencyConverter extends Component implements RateConverterInterface
     public $duration = 3600;
 
     /**
-     * @var array object configuration.
+     * @var array object configuration
      */
     public $provider = [
         'class' => 'imanilchaudhari\CurrencyConverter\Provider\ExchangeRatesApi',
@@ -59,12 +59,9 @@ class CurrencyConverter extends Component implements RateConverterInterface
      */
     private $_provider;
 
-    /**
-     * {@inheritDoc}
-     */
     public function convert($source, $target, $amount = 1)
     {
-        $cache = Yii::$app->cache;
+        $cache = \Yii::$app->cache;
 
         $sourceCurrency = is_array($source) ? $this->parseCurrencyArgument($source) : $source;
         $targetCurrency = is_array($target) ? $this->parseCurrencyArgument($target) : $target;
@@ -103,13 +100,13 @@ class CurrencyConverter extends Component implements RateConverterInterface
     /**
      * Sets rate provider from its array configuration.
      *
-     * @param array $config rate provider instance configuration.
+     * @param array $config rate provider instance configuration
      *
-     * @return RateProviderInterface rate provider instance.
+     * @return RateProviderInterface rate provider instance
      */
     protected function setRateProvider($config)
     {
-        return $this->_provider = Yii::createObject($config);
+        return $this->_provider = \Yii::createObject($config);
     }
 
     /**
@@ -117,9 +114,9 @@ class CurrencyConverter extends Component implements RateConverterInterface
      *
      * @param array $data
      *
-     * @throws InvalidArgumentException
-     *
      * @return string
+     *
+     * @throws InvalidArgumentException
      */
     protected function parseCurrencyArgument($data)
     {
@@ -139,9 +136,9 @@ class CurrencyConverter extends Component implements RateConverterInterface
      *
      * @param string $countryCode Country code
      *
-     * @throws InvalidArgumentException
-     *
      * @return string
+     *
+     * @throws InvalidArgumentException
      */
     protected function getCurrencyCode($countryCode)
     {

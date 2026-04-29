@@ -2,8 +2,8 @@
 
 namespace imanilchaudhari\CurrencyConverter\Tests\Provider;
 
-use yii\base\InvalidConfigException;
 use imanilchaudhari\CurrencyConverter\Provider\ApiForexApi;
+use yii\base\InvalidConfigException;
 
 class ApiForexApiTest extends ProviderTestCase
 {

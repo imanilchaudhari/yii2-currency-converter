@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @link https://github.com/imanilchaudhari
+ * @see https://github.com/imanilchaudhari
  *
  * @copyright Copyright (c) 2024
  * @license [MIT License](https://opensource.org/license/mit)
@@ -9,9 +9,9 @@
 
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
-use yii\httpclient\Client;
-use yii\base\InvalidConfigException;
 use imanilchaudhari\CurrencyConverter\Contract\RateProviderInterface;
+use yii\base\InvalidConfigException;
+use yii\httpclient\Client;
 
 /**
  * Open Exchange Rates provides currency conversion, current and historical forex exchange rate
@@ -63,16 +63,13 @@ class OpenExchangeRatesApi implements RateProviderInterface
      */
     public function __construct($appId = null)
     {
-        $this->appId = $appId;
+        $this->appId   = $appId;
         $this->_client = new Client([
             'baseUrl'   => 'https://openexchangerates.org',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRate($source, $target)
     {
         try {

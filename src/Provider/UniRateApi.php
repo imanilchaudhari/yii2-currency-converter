@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @link https://github.com/imanilchaudhari
+ * @see https://github.com/imanilchaudhari
  *
  * @copyright Copyright (c) 2025
  * @license [MIT License](https://opensource.org/license/mit)
@@ -9,9 +9,9 @@
 
 namespace imanilchaudhari\CurrencyConverter\Provider;
 
-use yii\httpclient\Client;
-use yii\base\InvalidConfigException;
 use imanilchaudhari\CurrencyConverter\Contract\RateProviderInterface;
+use yii\base\InvalidConfigException;
+use yii\httpclient\Client;
 
 /**
  * UniRate API, Access 593 real-time currency exchange rates with our completely free API. No credit card required..
@@ -62,16 +62,13 @@ class UniRateApi implements RateProviderInterface
      */
     public function __construct($apiKey = null)
     {
-        $this->apiKey = $apiKey;
+        $this->apiKey  = $apiKey;
         $this->_client = new Client([
             'baseUrl'   => 'https://api.unirateapi.com',
             'transport' => 'yii\httpclient\CurlTransport',
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRate($source, $target)
     {
         try {
